@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@elysiajs/eden": "^1.4.6",
+    "@tanstack/react-query": "^5.90.20",
     "elysia": "^1.4.22",
     "nanoid": "^5.1.6",
     "next": "16.1.4",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@tanstack/eslint-plugin-query": "^5.91.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
