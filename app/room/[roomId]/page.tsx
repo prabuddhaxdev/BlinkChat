@@ -7,13 +7,22 @@ export default function RoomId() {
   const params = useParams();
   const roomId = params.roomId as string;
 
-  const [copyStatus, setCopyStatus] = useState("COPY");
+ const [copyStatus, setCopyStatus] = useState<"COPY" | "COPIED!">("COPY");
 
   function copyLink() {
     const url = window.location.href;
     navigator.clipboard.writeText(url);
     setCopyStatus("COPIED!");
     setTimeout(() => setCopyStatus("COPY"), 2000);
+  }
+
+  const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
+
+  function formatTimeRemaining(seconds: number) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   }
 
   return (
@@ -42,8 +51,26 @@ export default function RoomId() {
             <span className="text-xs text-zinc-500 uppercase">
               Self-Destruct
             </span>
+
+            <span
+              className={`text-sm font-bold flex items-center gap-2 ${
+                timeRemaining !== null && timeRemaining < 60
+                  ? "text-red-500"
+                  : "text-amber-500"
+              }`}
+            >
+              {timeRemaining !== null
+                ? formatTimeRemaining(timeRemaining)
+                : "--:--"}
+            </span>
           </div>
         </div>
+
+        <button className="text-xs bg-zinc-800 hover:bg-red-600 px-3 py-1.5 rounded text-zinc-400 hover:text-white font-bold transition-all group flex items-center gap-2 disabled:opacity-50">
+          <span className="group-hover:animate-pulse">💣</span>
+          DESTROY NOW
+        </button>
+
       </header>
     </main>
   );
