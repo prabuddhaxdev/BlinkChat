@@ -1,6 +1,9 @@
 "use client";
 
 
+import { useUsername } from "@/hooks/useUsername";
+import { client } from "@/lib/client";
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useRef, useState } from "react";
 
@@ -29,7 +32,16 @@ export default function RoomId() {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   }
 
+  const { username } = useUsername();
 
+const { mutate: sendMessage, isPending } = useMutation({
+  mutationFn: async ({ text }: { text: string }) => {
+    await client.message.post(
+      { sender: username, text },
+      { query: { roomId } },
+    );
+  },
+});
 
   return (
     <main className="flex flex-col h-screen overflow-hidden">
@@ -94,7 +106,7 @@ export default function RoomId() {
               value={input}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && input.trim()) {
-                  // sendMessage({ text: input });
+                  sendMessage({ text: input });
                   inputRef.current?.focus();
                 }
               }}
@@ -104,7 +116,14 @@ export default function RoomId() {
             />
           </div>
 
-          <button className="bg-zinc-800 text-zinc-400 px-6 text-sm font-bold hover:text-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+          <button
+            onClick={() => {
+              sendMessage({ text: input });
+              inputRef.current?.focus();
+            }}
+            disabled={!input.trim() || isPending}
+            className="bg-zinc-800 text-zinc-400 px-6 text-sm font-bold hover:text-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          >
             SEND
           </button>
         </div>
