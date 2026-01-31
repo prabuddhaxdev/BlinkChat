@@ -25,7 +25,7 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next();
 
   // user is not allowed to join room
-  if (meta.connected.length >= 2)
+  if (meta.connected.length >= 3)
     return NextResponse.redirect(new URL("/?error=room-full", req.url));
 
   const response = NextResponse.next();
