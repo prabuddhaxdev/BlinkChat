@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BlinkChat
 
-## Getting Started
+<img width="1318" height="753" alt="blinkchat" src="https://github.com/user-attachments/assets/0c035e29-ab8a-4e9c-ace6-b7f68453f973" />
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Overview
+**BlinkChat** is a privacy-first, real-time chat web application built for **temporary and secure 1-on-1 conversations**. Chat rooms are designed to self-destruct automatically, ensuring messages are never stored permanently. With blazing-fast WebSocket communication and a lightweight backend, BlinkChat is perfect for anonymous, short-lived, and confidential chats.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Whether it’s quick collaboration, private discussions, or secret conversations — **BlinkChat disappears when you’re done.**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✨ Features
 
-## Learn More
+### 🔥 Real-time Messaging
+- Instant message delivery powered by **WebSockets**
+- No page refreshes — truly real-time communication
 
-To learn more about Next.js, take a look at the following resources:
+### 🕒 Auto-Destructing Rooms
+- Chat rooms automatically **expire after 10 minutes**
+- Ensures privacy and zero long-term data retention
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 💣 Manual Room Deletion
+- Users can destroy chat rooms at any time
+- Immediate removal of all messages and participants
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 👥 Two-User Limit
+- Each room supports **only 2 participants**
+- Designed for focused, private 1-on-1 conversations
 
-## Deploy on Vercel
+### 🛡️ Privacy-First Architecture
+- Messages are **not stored permanently**
+- Rooms are isolated and short-lived by design
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### ⚡ Ultra-Fast Backend
+- Built with **Elysia on Bun** for exceptional performance
+- Lightweight, low-latency server architecture
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 🧪 Validation & Safety
+- Strong runtime validation using **Zod**
+- Prevents malformed data and invalid room states
+
+### 📱 Responsive & Minimal UI
+- Clean, distraction-free interface
+- Fully responsive across desktop and mobile devices
+
+---
+
+## 🧩 Use Cases
+- 🔐 Secure 1-on-1 conversations  
+- 🕵️ Anonymous private chats  
+- 🤝 Temporary collaboration sessions  
+- 💬 Self-destructing secret messages  
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Next.js**
+- **React JS** 
+- **TypeScript**
+- **Tailwind CSS**
+- **TanStack Query** (state management & caching)
+
+### Backend
+- **Elysia** (Bun framework)
+- **Upstash Realtime** (WebSockets)
+- **Upstash Redis** (ephemeral storage)
+- **Zod** (schema validation)
+
