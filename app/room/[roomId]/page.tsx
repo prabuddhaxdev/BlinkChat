@@ -227,7 +227,7 @@ const { mutate: destroyRoom } = useMutation({
               inputRef.current?.focus();
             }}
             disabled={!input.trim() || isPending}
-            className="bg-zinc-800 text-zinc-400 px-6 text-sm font-bold hover:text-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="bg-zinc-800 text-zinc-400 px-6 text-sm font-bold hover:text-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer rounded-md"
           >
             SEND
           </button>
