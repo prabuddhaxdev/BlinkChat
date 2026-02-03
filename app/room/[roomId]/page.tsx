@@ -6,12 +6,13 @@ import { client } from "@/lib/client";
 import { useRealtime } from "@/lib/realtime-client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 export default function RoomId() {
   const params = useParams();
   const roomId = params.roomId as string;
+   const router = useRouter();
 
    const [input, setInput] = useState<string>("");
    const inputRef = useRef<HTMLInputElement>(null);
@@ -60,6 +61,8 @@ useRealtime({
   events: ["chat.message", "chat.destroy"],
   onData: ({ event }) => {
     if (event === "chat.message") refetch();
+
+     if (event === "chat.destroy") router.push("/?destroyed=true");
   },
 });
 
