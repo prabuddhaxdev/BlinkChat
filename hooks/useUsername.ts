@@ -12,6 +12,8 @@ const ANIMALS = [
   "Leopard",
   "Cheetah",
   "Jaguar",
+  "Elephant",
+  "Penguin"
 ];
 
 const STORAGE_KEY = "chat_username";

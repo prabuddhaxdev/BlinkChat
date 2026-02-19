@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { client } from "@/lib/client";
 
 const NANOID_PATTERN = /^[A-Za-z0-9_-]{21}$/;
 
@@ -22,12 +23,25 @@ export default function JoinRoomPage() {
   const [roomId, setRoomId] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const { mutate: joinRoom, isPending } = useMutation({
-    mutationFn: async (roomIdToJoin: string) => {
-      if (!NANOID_PATTERN.test(roomIdToJoin)) {
+  const { mutate: checkAndJoin, isPending } = useMutation({
+    mutationFn: async (roomIdToCheck: string) => {
+      if (!NANOID_PATTERN.test(roomIdToCheck)) {
         throw new Error("Invalid room ID format");
       }
-      return roomIdToJoin;
+
+      const res = await client.room.check.get({
+        query: { roomId: roomIdToCheck },
+      });
+
+      if (!res.data?.exists) {
+        throw new Error("Room not found or expired!");
+      }
+
+      if (res.data.isFull) {
+        throw new Error("Room is full");
+      }
+
+      return roomIdToCheck;
     },
     onSuccess: (validRoomId) => {
       router.push(`/room/${validRoomId}`);
@@ -43,19 +57,20 @@ export default function JoinRoomPage() {
 
     const trimmed = roomId.trim();
     if (trimmed) {
-      joinRoom(trimmed);
+      checkAndJoin(trimmed);
     }
   };
 
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-    const pasted = e.clipboardData.getData("text").trim();
+    const pastedText = e.clipboardData.getData("text").trim();
 
-    if (pasted && NANOID_PATTERN.test(pasted)) {
-      setRoomId(pasted);
+    if (pastedText && NANOID_PATTERN.test(pastedText)) {
+      setRoomId(pastedText);
       setError(null);
 
-      // slight delay for smoother UX
-      setTimeout(() => joinRoom(pasted), 100);
+      setTimeout(() => {
+        checkAndJoin(pastedText);
+      }, 100);
     }
   };
 
@@ -94,7 +109,6 @@ export default function JoinRoomPage() {
 
           <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Room Input */}
               <div className="space-y-3">
                 <Input
                   value={roomId}
@@ -132,7 +146,6 @@ export default function JoinRoomPage() {
                 </div>
               </div>
 
-              {/* 🔥 Join Button */}
               <Button
                 type="submit"
                 disabled={

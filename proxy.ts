@@ -27,8 +27,8 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Limit to 3 users (recommended for private chat)
-  if (connected.length >= 3) {
+  // Limit to 2 users (recommended for private chat)
+  if (connected.length >= 2) {
     return NextResponse.redirect(new URL("/?error=room-full", req.url));
   }
 
