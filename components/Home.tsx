@@ -63,7 +63,7 @@ export default function Home() {
           <div className="space-y-5">
             <div className="space-y-2">
               <label className="flex items-center text-zinc-500">
-                Your Identity
+                You&apos;ll Join as
               </label>
 
               <div className="flex items-center gap-3">
