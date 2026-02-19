@@ -86,7 +86,6 @@ export default function RoomId() {
      },
    });
 
-
 const { mutate: sendMessage, isPending } = useMutation({
   mutationFn: async ({ text }: { text: string }) => {
     await client.message.post(

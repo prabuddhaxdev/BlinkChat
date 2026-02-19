@@ -23,7 +23,7 @@ export default function JoinRoomPage() {
   const [roomId, setRoomId] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const { mutate: checkAndJoin, isPending } = useMutation({
+  const { mutate: checkAndJoin, isPending: isJoining } = useMutation({
     mutationFn: async (roomIdToCheck: string) => {
       if (!NANOID_PATTERN.test(roomIdToCheck)) {
         throw new Error("Invalid room ID format");
@@ -55,9 +55,9 @@ export default function JoinRoomPage() {
     e.preventDefault();
     setError(null);
 
-    const trimmed = roomId.trim();
-    if (trimmed) {
-      checkAndJoin(trimmed);
+    const trimmedRoomId = roomId.trim();
+    if (trimmedRoomId) {
+      checkAndJoin(trimmedRoomId);
     }
   };
 
@@ -94,8 +94,6 @@ export default function JoinRoomPage() {
             Enter a private room instantly.
           </p>
         </div>
-
-        {/* 🧊 Glass Card */}
         <Card className="bg-white/5 border border-white/10 backdrop-blur-2xl shadow-2xl shadow-blue-900/20 rounded-2xl">
           <CardHeader>
             <CardTitle className="text-xl text-white">
@@ -118,7 +116,7 @@ export default function JoinRoomPage() {
                   }}
                   onPaste={handlePaste}
                   placeholder="Paste room ID (auto-join enabled)"
-                  disabled={isPending}
+                  disabled={isJoining}
                   autoFocus
                   className="w-full font-mono bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500 rounded-xl"
                 />
@@ -150,13 +148,13 @@ export default function JoinRoomPage() {
                 type="submit"
                 disabled={
                   !roomId.trim() ||
-                  isPending ||
+                  isJoining ||
                   !NANOID_PATTERN.test(roomId.trim())
                 }
                 size="lg"
                 className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-lg shadow-blue-800/40 hover:shadow-blue-500/40 font-semibold tracking-wide"
               >
-                {isPending ? "Joining secure room..." : "JOIN SECURE ROOM"}
+                {isJoining ? "Joining secure room..." : "JOIN SECURE ROOM"}
               </Button>
             </form>
           </CardContent>
