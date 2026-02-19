@@ -45,7 +45,15 @@ export function Home() {
 
           <button
             onClick={() => router.push("/join")}
-            className="px-10 py-4 rounded-xl border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all duration-300 font-semibold text-lg w-full sm:w-auto"
+            className="px-10 py-4 rounded-xl 
+  border border-blue-500/40
+  bg-blue-500/10
+  text-blue-300
+  hover:bg-blue-500/10
+  hover:border-blue-400
+  hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]
+  transition-all duration-300 
+  font-semibold text-lg w-full sm:w-auto"
           >
             Join with Code
           </button>
