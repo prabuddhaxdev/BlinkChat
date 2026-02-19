@@ -1,11 +1,11 @@
-import Home from '@/components/Home';
+import { HeroLanding } from '@/components/LandingPage';
 import { Suspense } from 'react'
 
 export function Page(){
   return (
     <div>
       <Suspense>
-        <Home />
+        <HeroLanding />
       </Suspense>
     </div>
   );
