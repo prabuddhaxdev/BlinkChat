@@ -1,87 +1,89 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
-import { client } from "@/lib/client";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useUsername } from "@/hooks/useUsername";
+import { useRouter } from "next/navigation";
+import { Shield, Lock, Zap } from "lucide-react";
 
-export default function Home() {
-  const { username } = useUsername();
+export function Home() {
   const router = useRouter();
 
-  const searchParams = useSearchParams();
-  const wasDestroyed = searchParams.get("destroyed") === "true";
-  const error = searchParams.get("error");
-
-  const { mutate: createRoom } = useMutation({
-    mutationFn: async () => {
-      const res = await client.room.create.post();
-
-      if (res.status === 200) router.push(`/room/${res.data?.roomId}`);
-    },
-  });
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-8">
-        {wasDestroyed && (
-          <div className="bg-red-950/50 border border-red-900 p-4 text-center">
-            <p className="text-red-500 text-sm font-bold">ROOM DESTROYED</p>
-            <p className="text-zinc-500 text-xs mt-1">
-              All messages were permanently deleted.
-            </p>
-          </div>
-        )}
+    <div className="relative min-h-screen flex items-center justify-center bg-black text-white overflow-hidden px-6 py-14 sm:py-14">
+      {/* Background Glow */}
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-purple-600/20 blur-[180px] rounded-full" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-600/10 blur-[150px] rounded-full" />
 
-        {error === "room-not-found" && (
-          <div className="bg-red-950/50 border border-red-900 p-4 text-center">
-            <p className="text-red-500 text-sm font-bold">ROOM NOT FOUND</p>
-
-            <p className="text-zinc-500 text-xs mt-1">
-              This room may have expired or never existed.
-            </p>
-          </div>
-        )}
-
-        {error === "room-full" && (
-          <div className="bg-red-950/50 border border-red-900 p-4 text-center">
-            <p className="text-red-500 text-sm font-bold">ROOM FULL</p>
-            <p className="text-zinc-500 text-xs mt-1">
-              This room is at maximum capacity.
-            </p>
-          </div>
-        )}
-        <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold text-green-500 tracking-tight">
-            BlinkChat
-          </h1>
-          <p className="text-zinc-500 text-sm">
-            A private, self-destructing chat room.
-          </p>
+      <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 mb-8 backdrop-blur-md">
+          <Shield size={16} className="text-purple-400" />
+          End-to-End Private Messaging
         </div>
-        <div className="border border-zinc-800 bg-zinc-900/50 p-6 backdrop-blur-md">
-          <div className="space-y-5">
-            <div className="space-y-2">
-              <label className="flex items-center text-zinc-500">
-                You&apos;ll Join as
-              </label>
 
-              <div className="flex items-center gap-3">
-                <div className="flex-1 bg-zinc-950 border border-zinc-800 p-3 text-sm text-zinc-400 font-mono">
-                  {username}
-                </div>
-              </div>
+        {/* Headline */}
+        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight mb-6">
+          Chat Freely.
+          <br />
+          <span className="bg-gradient-to-r from-purple-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent">
+            Leave No Trace.
+          </span>
+        </h1>
+
+        {/* Subtext */}
+        <p className="text-gray-400 text-lg sm:text-xl max-w-4xl mx-auto mb-12 leading-relaxed">
+          Create instant, self-destructing chat rooms that disappear after 10
+          minutes. No accounts. No history. Just secure, anonymous
+          conversations.
+        </p>
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
+          <button
+            onClick={() => router.push("/create")}
+            className="px-10 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 transition-all duration-300 shadow-lg shadow-purple-700/30 font-semibold text-lg w-full sm:w-auto"
+          >
+            Create Private Room
+          </button>
+
+          <button
+            onClick={() => router.push("/join")}
+            className="px-10 py-4 rounded-xl border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all duration-300 font-semibold text-lg w-full sm:w-auto"
+          >
+            Join with Code
+          </button>
+        </div>
+
+        {/* Feature Grid */}
+        <div className="grid sm:grid-cols-3 gap-8 pt-10 border-t border-white/10">
+          <div>
+            <div className="flex justify-center">
+              <Zap className="text-indigo-400" size={28} />
             </div>
+            <h3 className="font-semibold text-lg">10-Minute Rooms</h3>
+            <p className="text-gray-400 text-sm">
+              Conversations auto-delete after 10 minutes. No backups.
+            </p>
+          </div>
 
-            <button
-              onClick={() => createRoom()}
-              className="w-full bg-zinc-100 text-black p-3 text-sm font-bold hover:bg-zinc-50 hover:text-black transition-colors mt-2 cursor-pointer disabled:opacity-50"
-            >
-              CREATE SECURE ROOM
-            </button>
+          <div>
+            <div className="flex justify-center">
+              <Lock className="text-purple-400" size={28} />
+            </div>
+            <h3 className="font-semibold text-lg">No Accounts</h3>
+            <p className="text-gray-400 text-sm">
+              No signups. No emails. Just enter and chat.
+            </p>
+          </div>
+
+          <div>
+            <div className="flex justify-center">
+              <Shield className="text-blue-400" size={28} />
+            </div>
+            <h3 className="font-semibold text-lg">Private by Design</h3>
+            <p className="text-gray-400 text-sm">
+              Built for anonymity. No tracking. No stored data.
+            </p>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
