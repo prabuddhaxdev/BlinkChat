@@ -27,7 +27,7 @@ export default function CreateRoomPage() {
   });
 
   return (
-    <main className="relative min-h-screen flex items-center justify-center bg-[#050816] text-white overflow-hidden px-6 py-14">
+    <main className="relative min-h-screen flex items-center justify-center bg-[#050816] text-white overflow-hidden px-6 py-10">
       {/* 🔵 Blue Glows */}
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blue-600/20 blur-[180px] rounded-full" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-cyan-500/10 blur-[150px] rounded-full" />
