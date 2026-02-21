@@ -40,10 +40,12 @@ export function CountdownTimer({
 
   return (
     <Badge
-      variant={timeRemaining <= 60 ? "destructive" : "warning"}
+      variant={
+        timeRemaining !== null && timeRemaining < 60 ? "destructive" : "warning"
+      }
       className="font-mono rounded-full px-3 py-1 text-xs"
     >
-      {formatTimeRemaining(Math.max(timeRemaining, 0))}
+      {timeRemaining !== null ? formatTimeRemaining(timeRemaining) : "--:--"}
     </Badge>
   );
 }
