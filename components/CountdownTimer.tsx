@@ -1,10 +1,8 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from "react";
 
 interface CountdownTimerProps {
-  initialTtl?: number; // seconds
+  initialTtl?: number;
   onExpire?: () => void;
 }
 
@@ -14,25 +12,33 @@ function formatTimeRemaining(seconds: number) {
   return `${mins}:${secs.toString().padStart(2, "0")}`;
 }
 
-export function CountdownTimer({
-  initialTtl = 0,
-  onExpire,
-}: CountdownTimerProps) {
-  const [timeRemaining, setTimeRemaining] = useState<number>(initialTtl);
+export function CountdownTimer({ initialTtl, onExpire }: CountdownTimerProps) {
+  const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
 
-  // Reset timer if initialTtl changes
   useEffect(() => {
-    setTimeRemaining(initialTtl);
+    if (initialTtl !== undefined) {
+      setTimeout(() => {
+        setTimeRemaining(initialTtl);
+      }, 1000);
+    }
   }, [initialTtl]);
 
   useEffect(() => {
-    if (timeRemaining <= 0) {
+    if (timeRemaining === null || timeRemaining < 0) return;
+
+    if (timeRemaining === 0) {
       onExpire?.();
       return;
     }
 
     const interval = setInterval(() => {
-      setTimeRemaining((prev) => prev - 1);
+      setTimeRemaining((prev) => {
+        if (prev === null || prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
     }, 1000);
 
     return () => clearInterval(interval);
@@ -43,7 +49,7 @@ export function CountdownTimer({
       variant={
         timeRemaining !== null && timeRemaining < 60 ? "destructive" : "warning"
       }
-      className="font-mono rounded-full px-3 py-1 text-xs"
+      className="font-mono rounded-full px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs"
     >
       {timeRemaining !== null ? formatTimeRemaining(timeRemaining) : "--:--"}
     </Badge>
