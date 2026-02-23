@@ -1,6 +1,5 @@
-import Elysia from "elysia";
-
 import { redis } from "@/lib/redis";
+import Elysia from "elysia";
 
 class AuthError extends Error {
   constructor(message: string) {
@@ -21,11 +20,23 @@ export const authMiddleware = new Elysia({ name: "auth" })
     const roomId = query.roomId;
     const token = cookie["x-auth-token"].value as string | undefined;
 
-    if (!roomId || !token) throw new AuthError("Missing roomId or token");
+    if (!roomId || !token) {
+      throw new AuthError("Missing roomId or token.");
+    }
 
-    const connected = await redis.hget<string[]>(`meta:${roomId}`, "connected");
+    const connectedRaw = await redis.hget<string | string[]>(
+      `meta:${roomId}`,
+      "connected",
+    );
+    const connected = Array.isArray(connectedRaw)
+      ? connectedRaw
+      : connectedRaw
+        ? JSON.parse(connectedRaw)
+        : [];
 
-    if (!connected?.includes(token)) throw new AuthError("Invalid token");
+    if (!connected.includes(token)) {
+      throw new AuthError("Invalid token");
+    }
 
     return { auth: { roomId, token, connected } };
   });
