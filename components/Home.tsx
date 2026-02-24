@@ -74,7 +74,7 @@ export function Home() {
         {/* Divider with label */}
         <div className="flex items-center gap-4 mb-10">
           <div className="flex-1 h-px bg-white/[0.06]" />
-          <span className="text-xs text-gray-600 uppercase tracking-widest">
+          <span className="text-xs text-muted-foreground uppercase tracking-widest">
             How it works
           </span>
           <div className="flex-1 h-px bg-white/[0.06]" />
@@ -114,13 +114,13 @@ export function Home() {
               <h3 className="font-semibold text-base text-white mb-2">
                 {title}
               </h3>
-              <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+              <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
 
         {/* Bottom footnote */}
-        <p className="mt-12 text-xs text-gray-600 tracking-wide">
+        <p className="mt-12 text-xs text-muted-foreground tracking-wide">
           No data stored · Rooms expire automatically · Open instantly
         </p>
       </div>
