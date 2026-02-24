@@ -12,7 +12,7 @@ export function MessageInput({
   onSend,
   onTyping,
   isPending = false,
-  placeholder = "Type message...",
+  placeholder = "Type your message...",
 }: MessageInputProps) {
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
