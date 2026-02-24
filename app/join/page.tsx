@@ -152,7 +152,7 @@ export default function JoinRoomPage() {
                   !NANOID_PATTERN.test(roomId.trim())
                 }
                 size="lg"
-                className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-lg shadow-blue-800/40 hover:shadow-blue-500/40 font-semibold tracking-wide"
+                className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-lg shadow-blue-800/40 hover:shadow-blue-500/40 font-semibold tracking-wide text-white/90"
               >
                 {isJoining ? "Joining secure room..." : "JOIN SECURE ROOM"}
               </Button>

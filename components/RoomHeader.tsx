@@ -31,7 +31,7 @@ export function RoomHeader({
   };
 
   return (
-    <header className="border-b px-3 sm:px-4 py-2.5 sm:py-3 bg-foreground">
+    <header className="border-b px-3 sm:px-4 py-2.5 sm:py-3 bg-card">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-6 min-w-0 flex-1">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2.5 min-w-0 flex-1">
@@ -77,9 +77,9 @@ export function RoomHeader({
         <div className="flex items-center gap-2 sm:gap-3 shrink-0 w-full sm:w-auto">
           <Button
             onClick={onDestroy}
-            variant="outline"
+            variant="destructive"
             size="xs"
-            className="gap-1.5 sm:gap-2 rounded-full h-7 w-full sm:w-auto shrink-0 text-[10px] sm:text-xs px-3 sm:px-4"
+            className="gap-2 sm:gap-2 rounded-full h-7 w-full sm:w-auto shrink-0 text-[12px] sm:text-xs px-3 sm:px-4"
           >
             <Bomb className="size-3 shrink-0" />
             <span className="hidden sm:inline whitespace-nowrap">

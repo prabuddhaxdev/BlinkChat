@@ -15,6 +15,11 @@ function formatTimeRemaining(seconds: number) {
 export function CountdownTimer({ initialTtl, onExpire }: CountdownTimerProps) {
   const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
 
+  const badgeVariant: "destructive" | "warning" =
+    timeRemaining !== null && timeRemaining < 60 ? "destructive" : "warning";
+      console.log("timeRemaining:", timeRemaining);
+      console.log("variant:", badgeVariant);
+
   useEffect(() => {
     if (initialTtl !== undefined) {
       setTimeout(() => {
@@ -46,9 +51,7 @@ export function CountdownTimer({ initialTtl, onExpire }: CountdownTimerProps) {
 
   return (
     <Badge
-      variant={
-        timeRemaining !== null && timeRemaining < 60 ? "destructive" : "warning"
-      }
+      variant={badgeVariant}
       className="font-mono rounded-full px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs"
     >
       {timeRemaining !== null ? formatTimeRemaining(timeRemaining) : "--:--"}
