@@ -374,7 +374,7 @@ const { mutate: destroyRoom, isPending: isDestroying } = useMutation({
 
       if (event === "chat.destroy") {
         cleanupRoom();
-        router.push("/create/?destroyed=true");
+        router.push("/");
       }
 
       if (event === "chat.reaction") {
