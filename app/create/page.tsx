@@ -51,48 +51,82 @@ export default function CreateRoomPage() {
         </div>
 
         {/* 🧊 Premium Glass Card */}
-        <Card className="bg-white/5 border border-white/10 backdrop-blur-2xl shadow-2xl shadow-blue-900/20 rounded-2xl">
-          <CardHeader>
-            <CardTitle className="text-xl text-white">
-              Create Secure Room
-            </CardTitle>
-            <CardDescription className="text-gray-400 space-y-1">
-              <p>
-                Start a private chat room that self-desucts after 10 minutes.
-              </p>
-              <p>
-                You’ll join anonymously with a random name.
-              </p>
-            </CardDescription>
-          </CardHeader>
-
-          <CardContent className="space-y-6">
-            {/* Username Preview */}
-            <div className="flex items-center gap-3 p-4 bg-white/5 border border-white/10 rounded-xl">
-              <div className="flex-1 min-w-0 space-y-2">
-                <p className="text-xs text-gray-400 tracking-wide uppercase">
-                  You’ll join as
-                </p>
-                <p className="text-sm font-semibold truncate text-blue-300">
-                  {username}
-                </p>
+        {isPending || isRedirecting ? (
+          <Card className="bg-white/5 border border-white/10 backdrop-blur-2xl shadow-2xl shadow-blue-900/20 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[340px] text-center space-y-6 transition-all duration-500 ease-in-out">
+            <div className="relative flex items-center justify-center w-20 h-20">
+              <div className="absolute w-16 h-16 bg-cyan-500/25 rounded-full animate-ping" />
+              <div className="absolute w-12 h-12 border-2 border-cyan-500/20 border-t-cyan-400 rounded-full animate-spin" />
+              <div className="relative text-cyan-400">
+                <svg
+                  className="w-6 h-6 animate-pulse"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
               </div>
             </div>
+            <div className="space-y-2">
+              <h3 className="text-lg font-semibold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent animate-pulse">
+                {isRedirecting ? "Entering secure room..." : "Generating Secure Room..."}
+              </h3>
+              <p className="text-sm text-gray-400 max-w-[280px] mx-auto leading-relaxed">
+                {isRedirecting
+                  ? "Preparing your end-to-end encrypted chat session..."
+                  : "Creating ephemeral keys and setting up database records..."}
+              </p>
+            </div>
+          </Card>
+        ) : (
+          <Card className="bg-white/5 border border-white/10 backdrop-blur-2xl shadow-2xl shadow-blue-900/20 rounded-2xl">
+            <CardHeader>
+              <CardTitle className="text-xl text-white">
+                Create Secure Room
+              </CardTitle>
+              <CardDescription className="text-gray-400 space-y-1">
+                <p>
+                  Start a private chat room that self-destructs after 10 minutes.
+                </p>
+                <p>
+                  You’ll join anonymously with a random name.
+                </p>
+              </CardDescription>
+            </CardHeader>
 
-            {/* 🔥 Blue Glow Button */}
-            <Button
-              onClick={() => {
-                if (isPending || isRedirecting) return;
-                createRoom();
-              }}
-              disabled={isPending || isRedirecting}
-              size="lg"
-              className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-lg shadow-blue-800/40 hover:shadow-blue-500/40 font-semibold tracking-wide text-white/90"
-            >
-              {isPending || isRedirecting ? "Creating secure room..." : "CREATE SECURE ROOM"}
-            </Button>
-          </CardContent>
-        </Card>
+            <CardContent className="space-y-6">
+              {/* Username Preview */}
+              <div className="flex items-center gap-3 p-4 bg-white/5 border border-white/10 rounded-xl">
+                <div className="flex-1 min-w-0 space-y-2">
+                  <p className="text-xs text-gray-400 tracking-wide uppercase">
+                    You’ll join as
+                  </p>
+                  <p className="text-sm font-semibold truncate text-blue-300">
+                    {username}
+                  </p>
+                </div>
+              </div>
+
+              {/* 🔥 Blue Glow Button */}
+              <Button
+                onClick={() => {
+                  if (isPending || isRedirecting) return;
+                  createRoom();
+                }}
+                disabled={isPending || isRedirecting}
+                size="lg"
+                className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-lg shadow-blue-800/40 hover:shadow-blue-500/40 font-semibold tracking-wide text-white/90"
+              >
+                {isPending || isRedirecting ? "Creating secure room..." : "CREATE SECURE ROOM"}
+              </Button>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </main>
   );

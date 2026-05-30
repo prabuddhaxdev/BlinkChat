@@ -463,10 +463,51 @@ const { mutate: destroyRoom, isPending: isDestroying } = useMutation({
   if (!hasJoined || !username) {
     if (isJoining) {
       return (
-        <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-6">
-          <div className="text-center space-y-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-            <p className="text-muted-foreground">Joining room...</p>
+        <main className="relative min-h-screen flex items-center justify-center bg-[#050816] text-white overflow-hidden px-6 py-14">
+          {/* 🔵 Background Glow */}
+          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blue-600/20 blur-[180px] rounded-full" />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-cyan-500/10 blur-[150px] rounded-full" />
+
+          <div className="relative z-10 w-full max-w-md space-y-10">
+            {/* 🔷 Brand Header */}
+            <div className="text-center space-y-4">
+              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                BlinkChat
+              </h1>
+              <p className="text-gray-400 text-sm sm:text-base">
+                Connecting you securely.
+              </p>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 backdrop-blur-2xl shadow-2xl shadow-blue-900/20 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[340px] text-center space-y-6">
+              <div className="relative flex items-center justify-center w-20 h-20">
+                <div className="absolute w-16 h-16 bg-blue-500/25 rounded-full animate-ping" />
+                <div className="absolute w-12 h-12 border-2 border-blue-500/20 border-t-blue-400 rounded-full animate-spin" />
+                <div className="relative text-blue-400">
+                  <svg
+                    className="w-6 h-6 animate-pulse"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-semibold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent animate-pulse">
+                  Joining Room...
+                </h3>
+                <p className="text-sm text-gray-400 max-w-[280px] mx-auto leading-relaxed">
+                  Establishing secure tunnel and subscribing to realtime messages...
+                </p>
+              </div>
+            </div>
           </div>
         </main>
       );
