@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Bomb, Link2, QrCode } from "lucide-react";
+import { Bomb, Link2, LogOut, QrCode } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { CopyButton } from "./CopyButton";
 import { CountdownTimer } from "./CountdownTimer";
@@ -20,6 +20,7 @@ interface RoomHeaderProps {
   roomId: string;
   timeToLive?: number;
   onDestroy: () => void;
+  onExit: () => void;
   onExpire?: () => void;
   roomUrl: string;
 }
@@ -28,6 +29,7 @@ export function RoomHeader({
   roomId,
   timeToLive,
   onDestroy,
+  onExit,
   onExpire,
   roomUrl,
 }: RoomHeaderProps) {
@@ -131,21 +133,33 @@ export function RoomHeader({
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0 w-full sm:w-auto">
             <Button
+              onClick={onExit}
+              size="sm"
+              className="border border-destructive/40 bg-transparent text-destructive hover:bg-destructive/20 hover:text-destructive rounded-full"
+              aria-label="Exit room"
+            >
+              <LogOut className="size-3.5 sm:size-4 shrink-0" />
+              <span className="text-[11px] sm:text-xs uppercase tracking-wide whitespace-nowrap">
+                EXIT ROOM
+              </span>
+            </Button>
+            <Button
               onClick={onDestroy}
               variant="destructive"
               size="xs"
-              className="gap-2 sm:gap-2 rounded-full h-7 w-full sm:w-auto shrink-0 text-[12px] sm:text-xs px-3 sm:px-4"
+              className="gap-2 sm:gap-2 rounded-full h-7 sm:h-8 flex-1 sm:flex-none shrink-0 text-[12px] sm:text-xs px-3 sm:px-4"
             >
               <Bomb className="size-3 shrink-0" />
-              <span className="hidden sm:inline whitespace-nowrap">
+              <span className="hidden sm:inline uppercase whitespace-nowrap">
                 DESTROY NOW
               </span>
-              <span className="sm:hidden whitespace-nowrap">DESTROY</span>
+              <span className="sm:hidden uppercase whitespace-nowrap">
+                DESTROY
+              </span>
             </Button>
           </div>
         </div>
       </header>
-
     </>
   );
 }

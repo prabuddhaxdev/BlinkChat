@@ -457,6 +457,10 @@ const { mutate: destroyRoom, isPending: isDestroying } = useMutation({
     cleanupRoom();
     router.push("/create/?destroyed=true");
   };
+  const handleExit = () => {
+    cleanupRoom();
+    router.push("/");
+  };
 
   const roomUrl = typeof window !== "undefined" ? window.location.href : "";
 
@@ -528,6 +532,7 @@ const { mutate: destroyRoom, isPending: isDestroying } = useMutation({
         roomId={roomId}
         timeToLive={ttlData?.ttl}
         onDestroy={() => destroyRoom()}
+        onExit={handleExit}
         onExpire={handleExpire}
         roomUrl={roomUrl}
       />
