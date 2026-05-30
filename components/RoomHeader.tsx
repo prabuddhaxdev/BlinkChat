@@ -3,7 +3,15 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Bomb, Link2, QrCode, X } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Bomb, Link2, QrCode } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { CopyButton } from "./CopyButton";
 import { CountdownTimer } from "./CountdownTimer";
@@ -24,7 +32,6 @@ export function RoomHeader({
   roomUrl,
 }: RoomHeaderProps) {
   const [shareLinkStatus, setShareLinkStatus] = useState("SHARE LINK");
-  const [isQrOpen, setIsQrOpen] = useState(false);
 
   const handleShareLink = () => {
     navigator.clipboard.writeText(roomUrl);
@@ -34,7 +41,7 @@ export function RoomHeader({
 
   return (
     <>
-      <header className="border-b px-3 sm:px-4 py-2.5 sm:py-3 bg-card">
+      <header className="border-b bg-card px-3 sm:px-4 py-3">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
           <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-6 min-w-0 flex-1">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2.5 min-w-0 flex-1">
@@ -65,16 +72,51 @@ export function RoomHeader({
                       {shareLinkStatus}
                     </span>
                   </Button>
-                  <Button
-                    onClick={() => setIsQrOpen(true)}
-                    variant="ghost"
-                    size="xs"
-                    disabled={!roomUrl}
-                    className="h-6 sm:h-7 rounded-full px-1.5 sm:px-2 shrink-0"
-                    aria-label="Show room QR code"
-                  >
-                    <QrCode className="size-4 sm:size-4.5 shrink-0" />
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="xs"
+                        disabled={!roomUrl}
+                        className="h-6 sm:h-7 rounded-full px-1.5 sm:px-2 shrink-0"
+                        aria-label="Show room QR code"
+                      >
+                        <QrCode className="size-4 sm:size-4.5 shrink-0" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="w-[calc(100%-2rem)] max-w-xs sm:max-w-sm rounded-2xl p-4 sm:p-5">
+                      <DialogHeader className="space-y-1">
+                        <DialogTitle className="text-xs sm:text-sm uppercase tracking-wide">
+                          Scan to Join Room
+                        </DialogTitle>
+                        <DialogDescription className="text-[10px] sm:text-xs">
+                          Scan this QR code on another device to join instantly.
+                        </DialogDescription>
+                      </DialogHeader>
+
+                      <div className="rounded-xl bg-white p-3 sm:p-4 flex items-center justify-center">
+                        <QRCodeSVG
+                          value={roomUrl}
+                          size={220}
+                          includeMargin
+                          className="h-auto w-full max-w-[220px]"
+                        />
+                      </div>
+
+                      <p className="text-[10px] sm:text-xs text-muted-foreground break-all">
+                        {roomUrl}
+                      </p>
+
+                      <div className="flex justify-end">
+                        <CopyButton
+                          text={roomUrl}
+                          label="COPY LINK"
+                          variant="outline"
+                          className="rounded-full"
+                        />
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
             </div>
@@ -104,49 +146,6 @@ export function RoomHeader({
         </div>
       </header>
 
-      {isQrOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-          <div className="absolute inset-0 bg-black/70" />
-          <div className="relative w-full max-w-xs sm:max-w-sm rounded-2xl border bg-card p-4 sm:p-5 shadow-2xl">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <h2 className="text-xs sm:text-sm font-semibold uppercase tracking-wide">
-                Scan to Join Room
-              </h2>
-              <Button
-                onClick={() => setIsQrOpen(false)}
-                variant="ghost"
-                size="icon-xs"
-                className="rounded-full"
-                aria-label="Close QR code modal"
-              >
-                <X className="size-3.5" />
-              </Button>
-            </div>
-
-            <div className="rounded-xl bg-white p-3 sm:p-4 flex items-center justify-center">
-              <QRCodeSVG
-                value={roomUrl}
-                size={220}
-                includeMargin
-                className="h-auto w-full max-w-[220px]"
-              />
-            </div>
-
-            <p className="mt-3 text-[10px] sm:text-xs text-muted-foreground break-all">
-              {roomUrl}
-            </p>
-
-            <div className="mt-3 flex justify-end">
-              <CopyButton
-                text={roomUrl}
-                label="COPY LINK"
-                variant="outline"
-                className="rounded-full"
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
