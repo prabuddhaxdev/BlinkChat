@@ -22,8 +22,9 @@ export default function JoinRoomPage() {
   const { username } = useUsername();
   const [roomId, setRoomId] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
-  const { mutate: checkAndJoin, isPending: isJoining } = useMutation({
+  const { mutate: checkAndJoin, isPending: isChecking } = useMutation({
     mutationFn: async (roomIdToCheck: string) => {
       if (!NANOID_PATTERN.test(roomIdToCheck)) {
         throw new Error("Invalid room ID format");
@@ -44,12 +45,15 @@ export default function JoinRoomPage() {
       return roomIdToCheck;
     },
     onSuccess: (validRoomId) => {
+      setIsRedirecting(true);
       router.push(`/room/${validRoomId}`);
     },
     onError: (err: Error) => {
       setError(err.message);
     },
   });
+
+  const isJoining = isChecking || isRedirecting;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

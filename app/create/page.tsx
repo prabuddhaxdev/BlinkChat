@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { client } from "@/lib/client";
@@ -16,11 +17,13 @@ import {
 export default function CreateRoomPage() {
   const { username } = useUsername();
   const router = useRouter();
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const { mutate: createRoom, isPending } = useMutation({
     mutationFn: async () => {
       const res = await client.room.create.post();
       if (res.status === 200) {
+        setIsRedirecting(true);
         router.push(`/room/${res.data?.roomId}`);
       }
     },
@@ -78,12 +81,15 @@ export default function CreateRoomPage() {
 
             {/* 🔥 Blue Glow Button */}
             <Button
-              onClick={() => createRoom()}
-              disabled={isPending}
+              onClick={() => {
+                if (isPending || isRedirecting) return;
+                createRoom();
+              }}
+              disabled={isPending || isRedirecting}
               size="lg"
               className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-lg shadow-blue-800/40 hover:shadow-blue-500/40 font-semibold tracking-wide text-white/90"
             >
-              {isPending ? "Creating secure room..." : "CREATE SECURE ROOM"}
+              {isPending || isRedirecting ? "Creating secure room..." : "CREATE SECURE ROOM"}
             </Button>
           </CardContent>
         </Card>
